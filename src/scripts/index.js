@@ -257,7 +257,7 @@ function dom(tag, props, ...children) {
 }
 
 fetch(
-  "https://gist.githubusercontent.com/abxlfazl/37404417d17230a629683eb3f2f0a88a/raw/366ad64df645e94592847283a306fe2276de458e/music-info.json"
+  "https://gist.githubusercontent.com/yourziro/778ac6bc4ef2716de7a806cd0cbd7ff3/raw/a8adce2cd472b0668c0a5b6402d8bc00a8e30ea5/music-src.json"
 )
   .then((respone) => respone)
   .then((data) => data.json())
