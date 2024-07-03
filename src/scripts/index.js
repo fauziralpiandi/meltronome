@@ -1,4 +1,4 @@
-// JSX DOM //
+/** @jsx dom */
 
 let indexSong = 0;
 let isLocked = false;
@@ -20,310 +20,310 @@ const root = querySelector("#root");
 
 function App({ songs }) {
   function handleChangeMusic({ isPrev = false, playListIndex = null }) {
-	if (isLocked || indexSong === playListIndex) return;
+    if (isLocked || indexSong === playListIndex) return;
 
-	if (playListIndex || playListIndex === 0) {
-	  indexSong = playListIndex;
-	} else {
-	  indexSong = isPrev ? (indexSong -= 1) : (indexSong += 1);
-	}
+    if (playListIndex || playListIndex === 0) {
+      indexSong = playListIndex;
+    } else {
+      indexSong = isPrev ? indexSong -= 1 : indexSong += 1;
+    }
 
-	if (indexSong < 0) {
-	  indexSong = 0;
-	  return;
-	} else if (indexSong > songsLength) {
-	  indexSong = songsLength;
-	  return;
-	}
+    if (indexSong < 0) {
+      indexSong = 0;
+      return;
+    } else if (indexSong > songsLength) {
+      indexSong = songsLength;
+      return;
+    }
 
-	selectedSong.pause();
-	selectedSong.currentTime = 0;
-	progressBarIsUpdating = false;
-	selectedSong = playlistSongs_elmnt[indexSong];
+    selectedSong.pause();
+    selectedSong.currentTime = 0;
+    progressBarIsUpdating = false;
+    selectedSong = playlistSongs_elmnt[indexSong];
 
-	if (selectedSong.paused && songIsPlayed) selectedSong.play();
-	else selectedSong.pause();
+    if (selectedSong.paused && songIsPlayed) selectedSong.play();else
+    selectedSong.pause();
 
-	setBodyBg(songs[indexSong].bg);
-	setProperty(sliderImgs_elmnt, "--index", -indexSong);
-	updateInfo(singerName_elmnt, songs[indexSong].artist);
-	updateInfo(songName_elmnt, songs[indexSong].songName);
+    setBodyBg(songs[indexSong].bg);
+    setProperty(sliderImgs_elmnt, "--index", -indexSong);
+    updateInfo(singerName_elmnt, songs[indexSong].artist);
+    updateInfo(songName_elmnt, songs[indexSong].songName);
   }
 
   setBodyBg(songs[0].bg);
 
   return (
-	<div class="music-player flex-column">
-	  <Slider slides={songs} handleChangeMusic={handleChangeMusic} />
-	  <Playlist list={songs} handleChangeMusic={handleChangeMusic} />
-	</div>
-  );
+    dom("div", { class: "music-player flex-column" },
+    dom(Slider, { slides: songs, handleChangeMusic: handleChangeMusic }),
+    dom(Playlist, { list: songs, handleChangeMusic: handleChangeMusic })));
+
+
 }
 
 function Slider({ slides, handleChangeMusic }) {
   function handleResizeSlider({ target }) {
-	if (isLocked) {
-	  return;
-	} else if (target.classList.contains("music-player__info")) {
-	  this.classList.add("resize");
-	  setProperty(this, "--controls-animate", "down running");
-	  return;
-	} else if (target.classList.contains("music-player__playlist-button")) {
-	  this.classList.remove("resize");
-	  setProperty(this, "--controls-animate", "up running");
-	  return;
-	}
+    if (isLocked) {
+      return;
+    } else if (target.classList.contains("music-player__info")) {
+      this.classList.add("resize");
+      setProperty(this, "--controls-animate", "down running");
+      return;
+    } else if (target.classList.contains("music-player__playlist-button")) {
+      this.classList.remove("resize");
+      setProperty(this, "--controls-animate", "up running");
+      return;
+    }
   }
   function handlePlayMusic() {
-	if (selectedSong.currentTime === selectedSong.duration) {
-	  handleChangeMusic({});
-	}
+    if (selectedSong.currentTime === selectedSong.duration) {
+      handleChangeMusic({});
+    }
 
-	this.classList.toggle("click");
-	songIsPlayed = !songIsPlayed;
-	selectedSong.paused ? selectedSong.play() : selectedSong.pause();
+    this.classList.toggle("click");
+    songIsPlayed = !songIsPlayed;
+    selectedSong.paused ? selectedSong.play() : selectedSong.pause();
   }
 
   return (
-	<div class="slider center" onClick={handleResizeSlider}>
-	  <div class="slider__content center">
-		<button class="music-player__playlist-button center button">
-		  <i class="icon-playlist" />
-		</button>
-		<button
-		  onClick={handlePlayMusic}
-		  class="music-player__broadcast-guarantor center button"
-		>
-		  <i class="icon-play" />
-		  <i class="icon-pause" />
-		</button>
-		<div class="slider__imgs flex-row">
-		  {slides.map(({ songName, files: { cover } }) => (
-			<img src={cover} class="img" alt={songName} />
-		  ))}
-		</div>
-	  </div>
-	  <div class="slider__controls center">
-		<button
-		  class="slider__switch-button flex-row button"
-		  onClick={() => handleChangeMusic({ isPrev: true })}
-		>
-		  <i class="icon-back" />
-		</button>
-		<div class="music-player__info text_trsf-cap">
-		  <div>
-			<div class="music-player__singer-name">
-			  <div>{slides[0].artist}</div>
-			</div>
-		  </div>
-		  <div>
-			<div class="music-player__subtitle">
-			  <div>{slides[0].songName}</div>
-			</div>
-		  </div>
-		</div>
-		<button
-		  class="slider__switch-button flex-row button"
-		  onClick={() => handleChangeMusic({ isPrev: false })}
-		>
-		  <i class="icon-next" />
-		</button>
-		<div
-		  class="progress center"
-		  onPointerdown={(e) => {
-			handleScrub(e);
-			progressBarIsUpdating = true;
-		  }}
-		>
-		  <div class="progress__wrapper">
-			<div class="progress__bar center" />
-		  </div>
-		</div>
-	  </div>
-	</div>
-  );
+    dom("div", { class: "slider center", onClick: handleResizeSlider },
+    dom("div", { class: "slider__content center" },
+    dom("button", { class: "music-player__playlist-button center button" },
+    dom("i", { class: "icon-playlist" })),
+
+    dom("button", {
+      onClick: handlePlayMusic,
+      class: "music-player__broadcast-guarantor center button" },
+
+    dom("i", { class: "icon-play" }),
+    dom("i", { class: "icon-pause" })),
+
+    dom("div", { class: "slider__imgs flex-row" },
+    slides.map(({ songName, files: { cover } }) =>
+    dom("img", { src: cover, class: "img", alt: songName })))),
+
+
+
+    dom("div", { class: "slider__controls center" },
+    dom("button", {
+      class: "slider__switch-button flex-row button",
+      onClick: () => handleChangeMusic({ isPrev: true }) },
+
+    dom("i", { class: "icon-back" })),
+
+    dom("div", { class: "music-player__info text_trsf-cap" },
+    dom("div", null,
+    dom("div", { class: "music-player__singer-name" },
+    dom("div", null, slides[0].artist))),
+
+
+    dom("div", null,
+    dom("div", { class: "music-player__subtitle" },
+    dom("div", null, slides[0].songName)))),
+
+
+
+    dom("button", {
+      class: "slider__switch-button flex-row button",
+      onClick: () => handleChangeMusic({ isPrev: false }) },
+
+    dom("i", { class: "icon-next" })),
+
+    dom("div", {
+      class: "progress center",
+      onPointerdown: e => {
+        handleScrub(e);
+        progressBarIsUpdating = true;
+      } },
+
+    dom("div", { class: "progress__wrapper" },
+    dom("div", { class: "progress__bar center" }))))));
+
+
+
+
+
 }
 
 function Playlist({ list, handleChangeMusic }) {
   function loadedAudio() {
-	const duration = this.duration;
-	const target = this.parentElement.querySelector(
-	  ".music-player__song-duration"
-	);
+    const duration = this.duration;
+    const target = this.parentElement.querySelector(
+    ".music-player__song-duration");
 
-	let min = parseInt(duration / 60);
-	if (min < 10) min = "0" + min;
 
-	let sec = parseInt(duration % 60);
-	if (sec < 10) sec = "0" + sec;
+    let min = parseInt(duration / 60);
+    if (min < 10) min = "0" + min;
 
-	target.appendChild(document.createTextNode(`${min}:${sec}`));
+    let sec = parseInt(duration % 60);
+    if (sec < 10) sec = "0" + sec;
+
+    target.appendChild(document.createTextNode(`${min}:${sec}`));
   }
 
   function updateTheProgressBar() {
-	const duration = this.duration;
-	const currentTime = this.currentTime;
+    const duration = this.duration;
+    const currentTime = this.currentTime;
 
-	const progressBarWidth = (currentTime / duration) * 100;
-	setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
+    const progressBarWidth = currentTime / duration * 100;
+    setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
 
-	if (songIsPlayed && currentTime === duration) {
-	  handleChangeMusic({});
-	}
+    if (songIsPlayed && currentTime === duration) {
+      handleChangeMusic({});
+    }
 
-	if (
-	  indexSong === songsLength &&
-	  this === selectedSong &&
-	  currentTime === duration
-	) {
-	  songIsPlayed = false;
-	  broadcastGuarantor_elmnt.classList.remove("click");
-	}
+    if (
+    indexSong === songsLength &&
+    this === selectedSong &&
+    currentTime === duration)
+    {
+      songIsPlayed = false;
+      broadcastGuarantor_elmnt.classList.remove("click");
+    }
   }
 
   return (
-	<ul class="music-player__playlist list">
-	  {list.map(({ songName, artist, files: { cover, song } }, index) => {
-		return (
-		  <li
-			class="music-player__song"
-			onClick={() =>
-			  handleChangeMusic({ isPrev: false, playListIndex: index })
-			}
-		  >
-			<div class="flex-row _align_center">
-			  <img src={cover} class="img music-player__song-img" />
-			  <div class="music-player__playlist-info  text_trsf-cap">
-				<b class="text_overflow">{songName}</b>
-				<div class="flex-row _justify_space-btwn">
-				  <span class="music-player__subtitle">{artist}</span>
-				  <span class="music-player__song-duration"></span>
-				</div>
-			  </div>
-			</div>
-			<audio
-			  src={song}
-			  onLoadeddata={loadedAudio}
-			  onTimeupdate={updateTheProgressBar}
-			/>
-		  </li>
-		);
-	  })}
-	</ul>
-  );
+    dom("ul", { class: "music-player__playlist list" },
+    list.map(({ songName, artist, files: { cover, song } }, index) => {
+      return (
+        dom("li", {
+          class: "music-player__song",
+          onClick: () =>
+          handleChangeMusic({ isPrev: false, playListIndex: index }) },
+
+
+        dom("div", { class: "flex-row _align_center" },
+        dom("img", { src: cover, class: "img music-player__song-img" }),
+        dom("div", { class: "music-player__playlist-info  text_trsf-cap" },
+        dom("b", { class: "text_overflow" }, songName),
+        dom("div", { class: "flex-row _justify_space-btwn" },
+        dom("span", { class: "music-player__subtitle" }, artist),
+        dom("span", { class: "music-player__song-duration" })))),
+
+
+
+        dom("audio", {
+          src: song,
+          onLoadeddata: loadedAudio,
+          onTimeupdate: updateTheProgressBar })));
+
+
+
+    })));
+
+
 }
 
 function Loading() {
   return (
-	<div class="loading flex-row">
-	  <span class="loading__progress">0</span>
-	  <span>%</span>
-	</div>
-  );
+    dom("div", { class: "loading flex-row" },
+    dom("span", { class: "loading__progress" }, "0"),
+    dom("span", null, "%")));
+
+
 }
 
 function dom(tag, props, ...children) {
   if (typeof tag === "function") return tag(props, ...children);
 
   function addChild(parent, child) {
-	if (Array.isArray(child)) {
-	  child.forEach((nestedChild) => addChild(parent, nestedChild));
-	} else {
-	  parent.appendChild(
-		child.nodeType ? child : document.createTextNode(child.toString())
-	  );
-	}
+    if (Array.isArray(child)) {
+      child.forEach(nestedChild => addChild(parent, nestedChild));
+    } else {
+      parent.appendChild(
+      child.nodeType ? child : document.createTextNode(child.toString()));
+
+    }
   }
 
   const element = document.createElement(tag);
 
   Object.entries(props || {}).forEach(([name, value]) => {
-	if (name.startsWith("on") && name.toLowerCase() in window) {
-	  element[name.toLowerCase()] = value;
-	} else if (name === "style") {
-	  Object.entries(value).forEach(([styleProp, styleValue]) => {
-		element.style[styleProp] = styleValue;
-	  });
-	} else {
-	  element.setAttribute(name, value.toString());
-	}
+    if (name.startsWith("on") && name.toLowerCase() in window) {
+      element[name.toLowerCase()] = value;
+    } else if (name === "style") {
+      Object.entries(value).forEach(([styleProp, styleValue]) => {
+        element.style[styleProp] = styleValue;
+      });
+    } else {
+      element.setAttribute(name, value.toString());
+    }
   });
 
-  children.forEach((child) => {
-	addChild(element, child);
+  children.forEach(child => {
+    addChild(element, child);
   });
 
   return element;
 }
 
 fetch(
-  "https://gist.githubusercontent.com/yourziro/778ac6bc4ef2716de7a806cd0cbd7ff3/raw/a8adce2cd472b0668c0a5b6402d8bc00a8e30ea5/music-src.json"
-)
-  .then((respone) => respone)
-  .then((data) => data.json())
-  .then((result) => {
-	const songs = result.songs;
+"https://gist.githubusercontent.com/yourziro/778ac6bc4ef2716de7a806cd0cbd7ff3/raw/a8adce2cd472b0668c0a5b6402d8bc00a8e30ea5/music-src.json").
 
-	function downloadTheFiles(media, input) {
-	  return Promise.all(
-		input.map((song) => {
-		  const promise = new Promise((resolve) => {
-			const url = song.files[media];
-			const req = new XMLHttpRequest();
-			req.open("GET", url, true);
-			req.responseType = "blob";
-			req.send();
-			req.onreadystatechange = () => {
-			  if (req.readyState === 4) {
-				if (req.status === 200) {
-				  const blob = req.response;
-				  const file = URL.createObjectURL(blob);
-				  song.files[media] = file;
-				  resolve(song);
-				}
-			  }
-			};
-		  });
+then(respone => respone).
+then(data => data.json()).
+then(result => {
+  const songs = result.songs;
 
-		  promise.then(() => {
-			loadingProgress++;
-			const progress = Math.round(
-			  (loadingProgress / (songs.length * 2)) * 100
-			);
-			loadingProgress_elmnt.innerHTML = progress;
-		  });
+  function downloadTheFiles(media, input) {
+    return Promise.all(
+    input.map(song => {
+      const promise = new Promise(resolve => {
+        const url = song.files[media];
+        const req = new XMLHttpRequest();
+        req.open("GET", url, true);
+        req.responseType = "blob";
+        req.send();
+        req.onreadystatechange = () => {
+          if (req.readyState === 4) {
+            if (req.status === 200) {
+              const blob = req.response;
+              const file = URL.createObjectURL(blob);
+              song.files[media] = file;
+              resolve(song);
+            }
+          }
+        };
+      });
 
-		  return promise;
-		})
-	  );
-	}
+      promise.then(() => {
+        loadingProgress++;
+        const progress = Math.round(
+        loadingProgress / (songs.length * 2) * 100);
 
-	root.appendChild(<Loading />);
-	loadingProgress_elmnt = querySelector(".loading__progress");
+        loadingProgress_elmnt.innerHTML = progress;
+      });
 
-	downloadTheFiles("cover", songs).then((respone) => {
-	  downloadTheFiles("song", respone).then((data) => {
-		root.removeChild(querySelector(".loading"));
-		root.appendChild(<App songs={data} />);
+      return promise;
+    }));
 
-		songsLength = data.length - 1;
-		progress_elmnt = querySelector(".progress");
-		playlistSongs_elmnt = querySelectorAll("audio");
-		sliderImgs_elmnt = querySelector(".slider__imgs");
-		songName_elmnt = querySelector(".music-player__subtitle");
-		musicPlayerInfo_elmnt = querySelector(".music-player__info");
-		singerName_elmnt = querySelector(".music-player__singer-name");
-		selectedSong = playlistSongs_elmnt[indexSong];
-		progressBar_elmnt = querySelector(".progress__bar");
-		broadcastGuarantor_elmnt = querySelector(
-		  ".music-player__broadcast-guarantor"
-		);
+  }
 
-		controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
-		controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
-	  });
-	});
+  root.appendChild(dom(Loading, null));
+  loadingProgress_elmnt = querySelector(".loading__progress");
+
+  downloadTheFiles("cover", songs).then(respone => {
+    downloadTheFiles("song", respone).then(data => {
+      root.removeChild(querySelector(".loading"));
+      root.appendChild(dom(App, { songs: data }));
+
+      songsLength = data.length - 1;
+      progress_elmnt = querySelector(".progress");
+      playlistSongs_elmnt = querySelectorAll("audio");
+      sliderImgs_elmnt = querySelector(".slider__imgs");
+      songName_elmnt = querySelector(".music-player__subtitle");
+      musicPlayerInfo_elmnt = querySelector(".music-player__info");
+      singerName_elmnt = querySelector(".music-player__singer-name");
+      selectedSong = playlistSongs_elmnt[indexSong];
+      progressBar_elmnt = querySelector(".progress__bar");
+      broadcastGuarantor_elmnt = querySelector(
+      ".music-player__broadcast-guarantor");
+
+
+      controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
+      controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
+    });
   });
+});
 
 function controlSubtitleAnimation(parent, child) {
   if (child.classList.contains("animate")) return;
@@ -331,8 +331,8 @@ function controlSubtitleAnimation(parent, child) {
   const element = child.firstChild;
 
   if (child.clientWidth > parent.clientWidth) {
-	child.appendChild(element.cloneNode(true));
-	child.classList.add("animate");
+    child.appendChild(element.cloneNode(true));
+    child.classList.add("animate");
   }
 
   setProperty(child.parentElement, "width", `${element.clientWidth}px`);
@@ -355,7 +355,7 @@ function setBodyBg(color) {
 }
 function updateInfo(target, value) {
   while (target.firstChild) {
-	target.removeChild(target.firstChild);
+    target.removeChild(target.firstChild);
   }
 
   const targetChild_elmnt = document.createElement("div");
@@ -379,29 +379,29 @@ window.addEventListener("resize", handleResize);
 window.addEventListener("orientationchange", handleResize);
 window.addEventListener("transitionstart", ({ target }) => {
   if (target === sliderImgs_elmnt) {
-	isLocked = true;
-	setProperty(sliderImgs_elmnt, "will-change", "transform");
+    isLocked = true;
+    setProperty(sliderImgs_elmnt, "will-change", "transform");
   }
 });
 window.addEventListener("transitionend", ({ target, propertyName }) => {
   if (target === sliderImgs_elmnt) {
-	isLocked = false;
-	setProperty(sliderImgs_elmnt, "will-change", "auto");
+    isLocked = false;
+    setProperty(sliderImgs_elmnt, "will-change", "auto");
   }
   if (target.classList.contains("slider") && propertyName === "height") {
-	controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
-	controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
+    controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
+    controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
   }
 });
 window.addEventListener("pointerup", () => {
   if (progressBarIsUpdating) {
-	selectedSong.muted = false;
-	progressBarIsUpdating = false;
+    selectedSong.muted = false;
+    progressBarIsUpdating = false;
   }
 });
-window.addEventListener("pointermove", (e) => {
+window.addEventListener("pointermove", e => {
   if (progressBarIsUpdating) {
-	handleScrub(e, this);
-	selectedSong.muted = true;
+    handleScrub(e, this);
+    selectedSong.muted = true;
   }
 });
