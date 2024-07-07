@@ -1,4 +1,4 @@
-name: envs
+name: Let’s Go!
 
 on:
   workflow_dispatch:
