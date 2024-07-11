@@ -1,4 +1,4 @@
-name: Let’s Go!
+name: Let’s play it!
 
 on:
   workflow_dispatch:
@@ -27,6 +27,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
-      - name: deploy to gh-pages
+      - name: Let’s play it!
         id: deployment
         uses: actions/deploy-pages@v4
