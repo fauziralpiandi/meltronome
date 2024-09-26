@@ -67,7 +67,7 @@ const SongText = ({
 )
 
 const SongInfo = ({ song, isPlaying }: SongInfoProps) => (
-  <div className="relative flex flex-col items-center w-full p-6 overflow-hidden border border-neutral-400 rounded-lg">
+  <div className="relative mb-3 flex flex-col items-center w-full p-6 overflow-hidden border border-neutral-400 rounded-lg">
     <div className="absolute inset-0 z-0">
       <div className="relative w-full h-full overflow-hidden rounded-lg">
         <SongImage
