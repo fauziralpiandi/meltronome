@@ -1,0 +1,6 @@
+run = "npm run dev"
+modules = ["nodejs-22", "web"]
+
+[[ports]]
+localPort = 3000
+externalPort = 80

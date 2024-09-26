@@ -1,4 +1,3 @@
-// components/ProgressBar.tsx
 import React, { useEffect, useState } from 'react'
 
 const ProgressBar = ({
@@ -6,7 +5,7 @@ const ProgressBar = ({
   onSeek,
 }: {
   audioRef: React.RefObject<HTMLAudioElement>
-  onSeek: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onSeek: (time: number) => void
 }) => {
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
@@ -19,27 +18,38 @@ const ProgressBar = ({
       }
     }
 
-    if (audioRef.current) {
-      audioRef.current.addEventListener('timeupdate', updateProgress)
+    const audioElement = audioRef.current
+    if (audioElement) {
+      audioElement.addEventListener('timeupdate', updateProgress)
       return () => {
-        if (audioRef.current) {
-          // Check if audioRef.current is not null
-          audioRef.current.removeEventListener('timeupdate', updateProgress)
-        }
+        audioElement.removeEventListener('timeupdate', updateProgress)
       }
     }
-  }, [audioRef.current])
+  }, [audioRef])
+
+  const handleSeek = (event: React.MouseEvent<HTMLDivElement>) => {
+    const { clientX } = event
+    const { left, width } = event.currentTarget.getBoundingClientRect()
+    const offsetX = clientX - left
+    const newTime = (offsetX / width) * duration
+    onSeek(newTime)
+    if (audioRef.current) {
+      audioRef.current.currentTime = newTime
+    }
+  }
 
   return (
     <div className="w-full flex flex-col items-center my-2">
-      <input
-        type="range"
-        min={0}
-        max={duration}
-        value={currentTime}
-        onChange={onSeek}
-        className="w-full"
-      />
+      <div
+        className="hidden w-full h-2 bg-neutral-300 border border-neutral-400 rounded-lg cursor-pointer relative"
+        onClick={handleSeek}
+      >
+        <div
+          className="absolute h-full bg-neutral-500 rounded-lg"
+          style={{ width: `${(currentTime / duration) * 100}%` }}
+        />
+      </div>
+      <input type="hidden" value={currentTime} />
     </div>
   )
 }

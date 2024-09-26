@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Song } from '../lib/Song'
 import LoadingScreen from './LoadingScreen'
 import { gist } from '../lib/gist'
@@ -9,18 +9,7 @@ interface SongLoaderProps {
 }
 
 const SongLoader = ({ setSongs, setLoading }: SongLoaderProps) => {
-  const [downloadProgress, setDownloadProgress] = useState(0)
-
   useEffect(() => {
-    let progressInterval: NodeJS.Timeout | null = null
-
-    const fetchBlob = async (url: string) => {
-      const response = await fetch(url)
-      if (!response.ok) throw new Error(`Failed to fetch ${url}`)
-      const blob = await response.blob()
-      return URL.createObjectURL(blob)
-    }
-
     const fetchSongs = async () => {
       const storedSongs = localStorage.getItem('songs')
       if (storedSongs) {
@@ -34,33 +23,17 @@ const SongLoader = ({ setSongs, setLoading }: SongLoaderProps) => {
         if (!response.ok) throw new Error('Network response was not ok')
 
         const data = await response.json()
-        const totalSongs = data.songs.length
 
-        setDownloadProgress(0)
+        const songs = data.songs.map((song: Song) => ({
+          ...song,
+          files: {
+            song: song.files.song,
+            cover: song.files.cover,
+          },
+        }))
 
-        let songsLoaded = 0
-        const updateProgress = () => {
-          songsLoaded += 1
-          setDownloadProgress((songsLoaded / totalSongs) * 100)
-        }
-
-        const songPromises = data.songs.map(async (song: Song) => {
-          try {
-            // Ganti URL dengan Blob URL untuk audio dan cover agar sumber asli tidak terlihat
-            song.files.song = await fetchBlob(song.files.song)
-            if (song.files.cover)
-              song.files.cover = await fetchBlob(song.files.cover)
-            updateProgress()
-          } catch (error) {
-            console.error(`Error loading ${song.songName}:`, error)
-            updateProgress()
-          }
-        })
-
-        await Promise.all(songPromises)
-
-        setSongs(data.songs)
-        localStorage.setItem('songs', JSON.stringify(data.songs))
+        setSongs(songs)
+        localStorage.setItem('songs', JSON.stringify(songs))
         setLoading(false)
       } catch (error) {
         console.error('Error fetching songs:', error)
@@ -69,22 +42,9 @@ const SongLoader = ({ setSongs, setLoading }: SongLoaderProps) => {
     }
 
     fetchSongs()
-
-    return () => {
-      if (progressInterval) clearInterval(progressInterval)
-      // Bersihkan Blob URL setelah tidak digunakan untuk mencegah memory leak
-      const storedSongs = localStorage.getItem('songs')
-      if (storedSongs) {
-        const songs = JSON.parse(storedSongs) as Song[]
-        songs.forEach((song) => {
-          URL.revokeObjectURL(song.files.song)
-          if (song.files.cover) URL.revokeObjectURL(song.files.cover)
-        })
-      }
-    }
   }, [setSongs, setLoading])
 
-  return <LoadingScreen progress={downloadProgress} />
+  return <LoadingScreen message="Wait a minute..." />
 }
 
 export default SongLoader

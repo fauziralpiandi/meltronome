@@ -1,4 +1,3 @@
-// components/Song.ts
 export interface Song {
   bg: string
   artist: string
@@ -7,4 +6,5 @@ export interface Song {
     song: string
     cover: string
   }
+  url: string
 }

@@ -1,35 +1,128 @@
-// components/SongList.tsx
 import React from 'react'
+import Image from 'next/image'
 import { Song } from '../lib/Song'
+
+interface SongImageProps {
+  src: string
+  alt: string
+  isPlaying: boolean
+  currentIndex: number
+  index: number
+}
+
+const SongImage = ({
+  src,
+  alt,
+  isPlaying,
+  currentIndex,
+  index,
+}: SongImageProps) => {
+  const imageClasses = `object-cover scale-105 transition-all duration-500 ease-in-out ${
+    currentIndex === index
+      ? isPlaying
+        ? 'opacity-100'
+        : 'opacity-100 grayscale'
+      : 'opacity-75 grayscale'
+  }`
+
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={640}
+      height={640}
+      className={imageClasses}
+      priority
+    />
+  )
+}
+
+const SongListItem = ({
+  song,
+  index,
+  currentIndex,
+  onSelectSong,
+  isPlaying,
+}: {
+  song: Song
+  index: number
+  currentIndex: number
+  onSelectSong: (index: number) => void
+  isPlaying: boolean
+}) => {
+  const isSelected = currentIndex === index
+  const imageClasses = `absolute inset-0 transition-all duration-500 ease-in-out ${
+    isSelected ? 'blur-sm' : 'blur-md group-hover:blur-sm'
+  }`
+
+  return (
+    <div
+      className={`relative flex items-center p-3 cursor-pointer rounded-lg border border-neutral-400 overflow-hidden group transition-all duration-500 ${
+        isSelected ? '' : 'hover:bg-neutral-300'
+      }`}
+      onClick={() => onSelectSong(index)}
+    >
+      <div className="absolute inset-0 z-0 rounded-lg overflow-hidden">
+        <div className={imageClasses}>
+          <SongImage
+            src={song.files.cover}
+            alt={song.songName}
+            isPlaying={isPlaying}
+            currentIndex={currentIndex}
+            index={index}
+          />
+        </div>
+        <div
+          className={`absolute inset-0 bg-white transition-all duration-500 ease-in-out opacity-50 ${
+            !isSelected ? 'group-hover:opacity-25' : ''
+          }`}
+        />
+      </div>
+
+      <div className="relative z-10 flex items-center">
+        <div className="relative w-12 h-12 mr-3 ml-0.5 overflow-hidden rounded-lg shadow-lg">
+          <SongImage
+            src={song.files.cover}
+            alt={song.songName}
+            isPlaying={isPlaying}
+            currentIndex={currentIndex}
+            index={index}
+          />
+        </div>
+        <div className="z-30 flex flex-col">
+          <span className="font-bold text-neutral-800 leading-snug">
+            {song.songName}
+          </span>
+          <span className="font-medium text-xs text-neutral-600">
+            {song.artist}
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const SongList = ({
   songs,
   currentIndex,
   onSelectSong,
+  isPlaying,
 }: {
   songs: Song[]
   currentIndex: number
   onSelectSong: (index: number) => void
+  isPlaying: boolean
 }) => (
-  <div className="space-y-2 overflow-y-scroll max-h-40">
+  <div className="w-full space-y-2 overflow-y-scroll hidden-scrollbar rounded-lg max-h-[240px]">
     {songs.map((song, index) => (
-      <div
+      <SongListItem
         key={index}
-        className={`flex items-center p-2 cursor-pointer border rounded-lg transition-colors duration-200 ${currentIndex === index ? 'bg-gray-300' : 'hover:bg-gray-200'}`}
-        onClick={() => onSelectSong(index)}
-      >
-        <div className="relative w-10 h-10 overflow-hidden rounded-lg mr-2">
-          <img
-            src={song.files.cover}
-            alt={song.songName}
-            className={`object-cover w-full h-full transition-opacity duration-500 ease-in-out ${currentIndex === index ? 'opacity-100' : 'opacity-75'}`}
-          />
-        </div>
-        <div className="flex flex-col truncate">
-          <h3 className="text-xs font-bold truncate">{song.songName}</h3>
-          <p className="text-xs text-gray-500 truncate">{song.artist}</p>
-        </div>
-      </div>
+        song={song}
+        index={index}
+        currentIndex={currentIndex}
+        onSelectSong={onSelectSong}
+        isPlaying={isPlaying}
+      />
     ))}
   </div>
 )
