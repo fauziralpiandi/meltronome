@@ -48,12 +48,6 @@ const MusicPlayer = ({
     }
   }
 
-  const handleSeek = (time: number) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = time
-    }
-  }
-
   useEffect(() => {
     if (!loading) {
       setTimeout(() => setIsContentVisible(true), 100)
@@ -73,7 +67,6 @@ const MusicPlayer = ({
           <SongPlayer
             currentSong={currentSong}
             isPlaying={isPlaying}
-            onSeek={handleSeek}
           />
           <SongList
             songs={songs}
