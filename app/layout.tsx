@@ -11,7 +11,6 @@ const alegreya = Alegreya({
 export const metadata: Metadata = {
   title: 'Meltronome - Fauzira Alpiandi',
   description: '',
-  },
 }
 
 export default function RootLayout({
