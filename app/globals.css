@@ -2,13 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background-color: #EEEEEE;
+  --text-color: #111111;
+  --selection-background: #111111;
+  --selection-text: #EEEEEE;
+}
+
 html {
   scroll-behavior: smooth;
-  font-family: var(--font-geist-sans);
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+::selection {
+  background-color: var(--selection-background);
+  color: var(--selection-text);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .hidden-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hidden-scrollbar {
+    scrollbar-width: none;
   }
 }
