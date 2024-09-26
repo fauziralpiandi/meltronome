@@ -5,10 +5,9 @@ import { Song } from '../lib/Song'
 interface SongPlayerProps {
   currentSong: Song | null
   isPlaying: boolean
-  onSeek: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const SongPlayer = ({ currentSong, isPlaying, onSeek }: SongPlayerProps) => {
+const SongPlayer = ({ currentSong, isPlaying }: SongPlayerProps) => {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
