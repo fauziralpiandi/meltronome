@@ -9,7 +9,7 @@ const alegreya = Alegreya({
 })
 
 export const metadata: Metadata = {
-  title: 'Meltronome - Fauzira Alpiandi'
+  title: 'Meltronome - Fauzira Alpiandi',
   description: '',
   },
 }
