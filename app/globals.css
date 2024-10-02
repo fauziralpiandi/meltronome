@@ -4,18 +4,24 @@
 
 :root {
   --background-color: #EEEEEE;
-  --text-color: #111111;
+  --foreground-color: #111111;
   --selection-background: #111111;
   --selection-text: #EEEEEE;
 }
 
-html {
+html,
+body {
+  margin: 0;
+  scrollbar-gutter: stable;
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--background-color);
-  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  color: var(--foreground);
+  background: var(--background);
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
@@ -34,5 +40,15 @@ body {
 
   .hidden-scrollbar {
     scrollbar-width: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

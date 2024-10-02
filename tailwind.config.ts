@@ -2,15 +2,11 @@ import type { Config } from 'tailwindcss'
 import typography from '@tailwindcss/typography'
 
 export default {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
-        'main-text': 'var(--text-color)',
+        'main-text': 'var(--foreground-color)',
         'main-background': 'var(--background-color)',
       },
       keyframes: {
@@ -24,8 +20,8 @@ export default {
         },
       },
       animation: {
-        'in': 'in 1000ms both',
-        'in-reverse': 'in-reverse 1000ms both',
+        'in': 'in 500ms both',
+        'in-reverse': 'in-reverse 500ms both',
       },
     },
   },
