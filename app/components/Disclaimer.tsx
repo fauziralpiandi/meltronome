@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { AiOutlineCheck } from 'react-icons/ai'
+import { AiOutlineCheck, AiOutlineInfoCircle } from 'react-icons/ai'
 import { useEffect, useState } from 'react'
 
 const bannerBaseClasses =
@@ -41,16 +41,23 @@ export default function DisclaimerBanner() {
           })}
         >
           <div className="flex flex-col items-center">
-            <p className="text-sm font-medium text-center text-neutral-300">
-              This website provides important information. Please make sure to
-              review it.
+            <AiOutlineInfoCircle className="mb-4 text-4xl text-neutral-50 animate-pulse" />
+            <p className="text-center text-neutral-200">
+              This music player presents inspired musical and visual content.
+              All displayed content aims to enhance the user experience. I do
+              not hold rights to this content and provide it solely for
+              entertainment and non-commercial use. This content is not intended
+              to claim ownership of the materials used.
             </p>
-            <div className="mt-6 w-full flex justify-center">
+            <p className="my-8 text-center text-neutral-200">
+              Thank you for your regards!
+            </p>
+            <div className="flex justify-center w-full">
               <button
                 onClick={handleDismiss}
-                className="flex items-center px-4 py-2 font-medium text-sm rounded-full bg-neutral-100 border border-neutral-500 text-neutral-900 hover:bg-neutral-400 transition-colors duration-200"
+                className="flex items-center px-4 py-2 text-sm font-medium text-neutral-900 bg-neutral-100 border border-neutral-500 rounded-full hover:bg-neutral-400 transition-colors duration-200"
               >
-                <AiOutlineCheck className="mr-2" /> Understood
+                <AiOutlineCheck className="mr-2" /> Let&rsquo;s go!
               </button>
             </div>
           </div>
