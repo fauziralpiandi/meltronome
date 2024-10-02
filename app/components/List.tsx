@@ -1,8 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
-import { Song } from '../lib/Song'
 
-interface SongImageProps {
+import { Meltronome } from 'app/lib/types'
+
+interface ImageProps {
   src: string
   alt: string
   isPlaying: boolean
@@ -10,13 +11,13 @@ interface SongImageProps {
   index: number
 }
 
-const SongImage = ({
+const ListImage = ({
   src,
   alt,
   isPlaying,
   currentIndex,
   index,
-}: SongImageProps) => {
+}: ImageProps) => {
   const imageClasses = `object-cover scale-105 transition-all duration-500 ease-in-out ${
     currentIndex === index
       ? isPlaying
@@ -37,17 +38,17 @@ const SongImage = ({
   )
 }
 
-const SongListItem = ({
-  song,
+const ListItem = ({
+  track,
   index,
   currentIndex,
-  onSelectSong,
+  onSelectTrack,
   isPlaying,
 }: {
-  song: Song
+  track: Meltronome
   index: number
   currentIndex: number
-  onSelectSong: (index: number) => void
+  onSelectTrack: (index: number) => void
   isPlaying: boolean
 }) => {
   const isSelected = currentIndex === index
@@ -60,13 +61,13 @@ const SongListItem = ({
       className={`relative flex items-center p-3 cursor-pointer rounded-lg border border-neutral-400 overflow-hidden group transition-all duration-500 ${
         isSelected ? '' : 'hover:bg-neutral-300'
       }`}
-      onClick={() => onSelectSong(index)}
+      onClick={() => onSelectTrack(index)}
     >
       <div className="absolute inset-0 z-0 rounded-lg overflow-hidden">
         <div className={imageClasses}>
-          <SongImage
-            src={song.files.cover}
-            alt={song.songName}
+          <ListImage
+            src={track.play.artwork}
+            alt={`${track.artistName} \u2014 ${track.titleName}`}
             isPlaying={isPlaying}
             currentIndex={currentIndex}
             index={index}
@@ -81,9 +82,9 @@ const SongListItem = ({
 
       <div className="relative z-10 flex items-center">
         <div className="relative w-12 h-12 mr-3 ml-0.5 overflow-hidden rounded-lg shadow-lg">
-          <SongImage
-            src={song.files.cover}
-            alt={song.songName}
+          <ListImage
+            src={track.play.artwork}
+            alt={`${track.artistName} \u2014 ${track.titleName}`}
             isPlaying={isPlaying}
             currentIndex={currentIndex}
             index={index}
@@ -91,10 +92,10 @@ const SongListItem = ({
         </div>
         <div className="z-30 flex flex-col">
           <span className="font-bold text-neutral-800 leading-snug">
-            {song.songName}
+            {track.titleName}
           </span>
           <span className="font-medium text-xs text-neutral-600">
-            {song.artist}
+            {track.artistName}
           </span>
         </div>
       </div>
@@ -102,29 +103,29 @@ const SongListItem = ({
   )
 }
 
-const SongList = ({
-  songs,
+const List = ({
+  tracks,
   currentIndex,
-  onSelectSong,
+  onSelectTrack,
   isPlaying,
 }: {
-  songs: Song[]
+  tracks: Meltronome[]
   currentIndex: number
-  onSelectSong: (index: number) => void
+  onSelectTrack: (index: number) => void
   isPlaying: boolean
 }) => (
   <div className="w-full space-y-2 overflow-y-scroll hidden-scrollbar rounded-lg max-h-[240px]">
-    {songs.map((song, index) => (
-      <SongListItem
+    {tracks.map((track, index) => (
+      <ListItem
         key={index}
-        song={song}
+        track={track}
         index={index}
         currentIndex={currentIndex}
-        onSelectSong={onSelectSong}
+        onSelectTrack={onSelectTrack}
         isPlaying={isPlaying}
       />
     ))}
   </div>
 )
 
-export default SongList
+export default List

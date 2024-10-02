@@ -1,45 +1,49 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Song } from '../lib/Song'
 
-import SongLoader from './SongLoader'
-import SongInfo from './SongInfo'
-import SongList from './SongList'
-import SongPlayer from './SongPlayer'
+import { Meltronome } from 'app/lib/types'
 
-const MusicPlayer = ({
-  onCoverChange,
-}: {
-  onCoverChange: (cover: string) => void
-}) => {
-  const [songs, setSongs] = useState<Song[]>([])
+import Load from 'app/components/Load'
+import Canvas from 'app/components/Canvas'
+import Player from 'app/components/Player'
+import List from 'app/components/List'
+
+const App = ({ onCoverChange }: { onCoverChange: (cover: string) => void }) => {
+  const [tracks, setTrack] = useState<Meltronome[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [isContentVisible, setIsContentVisible] = useState(false) // state baru untuk kontrol animasi
+  const [isContentVisible, setIsContentVisible] = useState(false)
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  const currentSong = songs[currentIndex]
+  const currentTrack = tracks[currentIndex]
 
   useEffect(() => {
-    if (currentSong) {
-      onCoverChange(currentSong.bg)
+    if (currentTrack) {
+      onCoverChange(currentTrack.colorCover)
     }
-  }, [currentSong, onCoverChange])
+  }, [currentTrack, onCoverChange])
 
   useEffect(() => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.play()
-      } else {
-        audioRef.current.pause()
+    const playAudio = async () => {
+      if (audioRef.current) {
+        try {
+          await audioRef.current.play()
+        } catch (error) {
+          console.error('Error playing audio:', error)
+        }
       }
     }
-  }, [isPlaying])
 
-  const handleSelectSong = (index: number) => {
+    if (isPlaying) {
+      playAudio()
+    } else {
+      audioRef.current?.pause()
+    }
+  }, [isPlaying, currentTrack])
+
+  const handleSelectTrack = (index: number) => {
     if (currentIndex !== index) {
       setCurrentIndex(index)
       setIsPlaying(true)
@@ -50,28 +54,25 @@ const MusicPlayer = ({
 
   useEffect(() => {
     if (!loading) {
-      setTimeout(() => setIsContentVisible(true), 100)
+      setIsContentVisible(true)
     }
   }, [loading])
 
   return (
     <div className="w-full flex flex-col items-center p-12">
       {loading ? (
-        <SongLoader setSongs={setSongs} setLoading={setLoading} />
+        <Load setTrack={setTrack} setLoading={setLoading} />
       ) : (
         <div
           className={`w-full ${isContentVisible ? 'animate-in' : 'opacity-0'}`}
         >
-          <audio ref={audioRef} src={currentSong?.url} preload="metadata" />
-          <SongInfo song={currentSong} isPlaying={isPlaying} />
-          <SongPlayer
-            currentSong={currentSong}
-            isPlaying={isPlaying}
-          />
-          <SongList
-            songs={songs}
+          <audio ref={audioRef} src={currentTrack?.url} preload="metadata" />
+          <Canvas track={currentTrack} isPlaying={isPlaying} />
+          <Player currentTrack={currentTrack} isPlaying={isPlaying} />
+          <List
+            tracks={tracks}
             currentIndex={currentIndex}
-            onSelectSong={handleSelectSong}
+            onSelectTrack={handleSelectTrack}
             isPlaying={isPlaying}
           />
         </div>
@@ -80,4 +81,4 @@ const MusicPlayer = ({
   )
 }
 
-export default MusicPlayer
+export default App

@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react'
 import Image from 'next/image'
 
-import { Song } from '../lib/Song'
+import { Meltronome } from 'app/lib/types'
 
-interface SongInfoProps {
-  song: Song
+interface CanvasProps {
+  track: Meltronome
   isPlaying: boolean
 }
 
@@ -17,7 +17,7 @@ const ImageSizeClass = (size: 'large' | 'small', isPlaying: boolean) =>
       ? 'grayscale-0 scale-110'
       : 'grayscale scale-100'
 
-const SongImage = ({
+const CanvasImage = ({
   src,
   alt,
   isPlaying,
@@ -51,28 +51,28 @@ const SongImage = ({
   )
 }
 
-const SongText = ({
-  songName,
-  artist,
+const CanvasText = ({
+  titleName,
+  artistName,
 }: {
-  songName: string
-  artist: string
+  titleName: string
+  artistName: string
 }) => (
   <div className="z-30 text-center">
     <span className="block font-bold text-lg text-neutral-800 leading-none">
-      {songName}
+      {titleName}
     </span>
-    <span className="text-sm font-medium text-neutral-600">{artist}</span>
+    <span className="text-sm font-medium text-neutral-600">{artistName}</span>
   </div>
 )
 
-const SongInfo = ({ song, isPlaying }: SongInfoProps) => (
+const Canvas = ({ track, isPlaying }: CanvasProps) => (
   <div className="relative mb-3 flex flex-col items-center w-full p-6 overflow-hidden border border-neutral-400 rounded-lg">
     <div className="absolute inset-0 z-0">
       <div className="relative w-full h-full overflow-hidden rounded-lg">
-        <SongImage
-          src={song.files.cover}
-          alt={song.songName}
+        <CanvasImage
+          src={track.play.artwork}
+          alt={`${track.artistName} \u2014 ${track.titleName}`}
           isPlaying={isPlaying}
           size="large"
           blurEffect
@@ -82,15 +82,15 @@ const SongInfo = ({ song, isPlaying }: SongInfoProps) => (
     </div>
 
     <div className="relative z-10 w-28 h-28 mb-4 overflow-hidden rounded-lg shadow-lg">
-      <SongImage
-        src={song.files.cover}
-        alt={song.songName}
+      <CanvasImage
+        src={track.play.artwork}
+        alt={`${track.artistName} \u2014 ${track.titleName}`}
         isPlaying={isPlaying}
       />
     </div>
 
-    <SongText songName={song.songName} artist={song.artist} />
+    <CanvasText titleName={track.titleName} artistName={track.artistName} />
   </div>
 )
 
-export default SongInfo
+export default Canvas
