@@ -1,0 +1,58 @@
+{
+  "meltronome": [
+    {
+      "colorCover": "#292929",
+      "artistName": "The 1975",
+      "titleName": "About You",
+      "play": {
+        "track": "/playlist/01/track.mp3",
+        "artwork": "/playlist/01/artwork.jpg"
+      }
+    },
+    {
+      "colorCover": "#292929",
+      "artistName": "Gustixa, Yaeow",
+      "titleName": "Don't Let Me Fall",
+      "play": {
+        "track": "/playlist/02/track.mp3",
+        "artwork": "/playlist/02/artwork.jpg"
+      }
+    },
+    {
+      "colorCover": "#4D0010",
+      "artistName": "fawlin, Gustixa",
+      "titleName": "Follow You Anywhere",
+      "play": {
+        "track": "/playlist/03/track.mp3",
+        "artwork": "/playlist/03/artwork.jpg"
+      }
+    },
+    {
+      "colorCover": "#5D181D",
+      "artistName": "Gracie Adams",
+      "titleName": "I Miss You, I'm Sorry",
+      "play": {
+        "track": "/playlist/04/track.mp3",
+        "artwork": "/playlist/04/artwork.jpg"
+      }
+    },
+    {
+      "colorCover": "#600001",
+      "artistName": "Bunkface",
+      "titleName": "Masih Disini",
+      "play": {
+        "track": "/playlist/05/track.mp3",
+        "artwork": "/playlist/05/artwork.jpg"
+      }
+    },
+    {
+      "colorCover": "#292929",
+      "artistName": "Gustixa, Adila Fitriani",
+      "titleName": "Memiliki Dirinya",
+      "play": {
+        "track": "/playlist/06/track.mp3",
+        "artwork": "/playlist/06/artwork.jpg"
+      }
+    }
+  ]
+}

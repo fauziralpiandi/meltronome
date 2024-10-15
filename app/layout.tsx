@@ -1,21 +1,14 @@
 import type { Metadata } from 'next'
 import { Alegreya } from 'next/font/google'
 
-import './globals.css'
-
-import { site } from 'app/lib/config'
-
-import Disclaimer from 'app/components/Disclaimer'
-
-const font = Alegreya({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-})
+import '~/globals.css'
+import { site } from '~/constant'
+import Disclaimer from '~/Disclaimer'
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.baseUrl),
   title: `${site.title} \u2014 ${site.author}`,
-  description: site.desc,
+  description: site.description,
 }
 
 export default function RootLayout({
@@ -25,9 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={site.locale}>
-      <body className={`${font.className} text-main-text bg-main-background`}>
+      <body className={`${font.className} antialiased animate-in`}>
         <svg
-          className="w-full h-full pointer-events-none fixed isolate z-50 mix-blend-soft-light opacity-75"
+          className="w-full h-full pointer-events-none fixed isolate z-50 mix-blend-soft-light"
           style={{
             position: 'fixed',
             top: 0,
@@ -39,7 +32,7 @@ export default function RootLayout({
           <filter id="noise">
             <feTurbulence
               type="fractalNoise"
-              baseFrequency="0.9"
+              baseFrequency="1"
               numOctaves="5"
               stitchTiles="stitch"
             />
@@ -52,3 +45,7 @@ export default function RootLayout({
     </html>
   )
 }
+
+const font = Alegreya({
+  subsets: ['latin'],
+})

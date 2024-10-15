@@ -2,53 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background-color: #EEEEEE;
-  --foreground-color: #111111;
-  --selection-background: #111111;
-  --selection-text: #EEEEEE;
-}
-
 html,
 body {
-  margin: 0;
+  @apply m-0;
   scrollbar-gutter: stable;
   scroll-behavior: smooth;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  text-rendering: optimizeLegibility;
+  @apply flex flex-col bg-mono-50 text-mono-950;
+  text-rendering: geometricPrecision;
+  overflow-wrap: break-word;
 }
 
 ::selection {
-  background-color: var(--selection-background);
-  color: var(--selection-text);
+  @apply bg-mono-950 text-mono-50;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .hidden-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .hidden-scrollbar {
-    scrollbar-width: none;
-  }
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
-@keyframes fadeIn {
-  from {
+.hidden-scrollbar {
+  scrollbar-width: none;
+}
+
+@keyframes fade-in {
+  0% {
     opacity: 0;
   }
 
-  to {
+  20% {
+    opacity: 0.2;
+  }
+
+  40% {
+    opacity: 0.4;
+  }
+
+  60% {
+    opacity: 0.6;
+  }
+
+  80% {
+    opacity: 0.8;
+  }
+
+  100% {
     opacity: 1;
   }
 }

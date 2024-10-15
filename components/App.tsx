@@ -2,12 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react'
 
-import { Meltronome } from 'app/lib/types'
-
-import Load from 'app/components/Load'
-import Canvas from 'app/components/Canvas'
-import Player from 'app/components/Player'
-import List from 'app/components/List'
+import { Meltronome } from '~/types.d'
+import Load from '~/Load'
+import Canvas from '~/Canvas'
+import Player from '~/Player'
+import List from '~/List'
 
 const App = ({ onCoverChange }: { onCoverChange: (cover: string) => void }) => {
   const [tracks, setTrack] = useState<Meltronome[]>([])
@@ -59,7 +58,7 @@ const App = ({ onCoverChange }: { onCoverChange: (cover: string) => void }) => {
   }, [loading])
 
   return (
-    <div className="w-full flex flex-col items-center p-12">
+    <div className="w-full flex flex-col items-center p-14">
       {loading ? (
         <Load setTrack={setTrack} setLoading={setLoading} />
       ) : (
@@ -75,6 +74,11 @@ const App = ({ onCoverChange }: { onCoverChange: (cover: string) => void }) => {
             onSelectTrack={handleSelectTrack}
             isPlaying={isPlaying}
           />
+          <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2">
+            <div className="font-semibold text-sm text-mono-800 tracking-tight">
+              Apache 2.0 &copy; {new Date().getFullYear()} Fauzira Alpiandi
+            </div>
+          </div>
         </div>
       )}
     </div>

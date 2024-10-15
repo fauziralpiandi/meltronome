@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import Image from 'next/image'
 
-import { Meltronome } from 'app/lib/types'
+import { Meltronome } from '~/types.d'
 
 interface CanvasProps {
   track: Meltronome
@@ -59,15 +59,13 @@ const CanvasText = ({
   artistName: string
 }) => (
   <div className="z-30 text-center">
-    <span className="block font-bold text-lg text-neutral-800 leading-none">
-      {titleName}
-    </span>
-    <span className="text-sm font-medium text-neutral-600">{artistName}</span>
+    <span className="block font-bold text-lg leading-none">{titleName}</span>
+    <span className="text-sm font-medium text-mono-800">{artistName}</span>
   </div>
 )
 
 const Canvas = ({ track, isPlaying }: CanvasProps) => (
-  <div className="relative mb-3 flex flex-col items-center w-full p-6 overflow-hidden border border-neutral-400 rounded-lg">
+  <div className="relative mb-3 flex flex-col items-center w-full p-6 overflow-hidden border border-mono-500 rounded-lg">
     <div className="absolute inset-0 z-0">
       <div className="relative w-full h-full overflow-hidden rounded-lg">
         <CanvasImage

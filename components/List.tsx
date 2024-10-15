@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 
-import { Meltronome } from 'app/lib/types'
+import { Meltronome } from '~/types.d'
 
 interface ImageProps {
   src: string
@@ -58,8 +58,8 @@ const ListItem = ({
 
   return (
     <div
-      className={`relative flex items-center p-3 cursor-pointer rounded-lg border border-neutral-400 overflow-hidden group transition-all duration-500 ${
-        isSelected ? '' : 'hover:bg-neutral-300'
+      className={`relative flex items-center p-3 cursor-pointer rounded-lg border border-mono-400 overflow-hidden group transition-all duration-500 ${
+        isSelected ? '' : 'hover:bg-mono-300'
       }`}
       onClick={() => onSelectTrack(index)}
     >
@@ -91,10 +91,10 @@ const ListItem = ({
           />
         </div>
         <div className="z-30 flex flex-col">
-          <span className="font-bold text-neutral-800 leading-snug">
+          <span className="font-bold text-mono-800 leading-snug">
             {track.titleName}
           </span>
-          <span className="font-medium text-xs text-neutral-600">
+          <span className="font-medium text-xs text-mono-800">
             {track.artistName}
           </span>
         </div>

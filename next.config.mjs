@@ -9,8 +9,8 @@ const nextConfig = {
     ],
   },
   async headers() {
-    return [];
+    return []
   },
 }
 
-export default nextConfig;
+export default nextConfig

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-import { Meltronome } from 'app/lib/types'
+import { Meltronome } from '~/types.d'
 
 interface PlayerProps {
   currentTrack: Meltronome | null
