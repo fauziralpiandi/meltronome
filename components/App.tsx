@@ -76,7 +76,7 @@ const App = ({ onCoverChange }: { onCoverChange: (cover: string) => void }) => {
           />
           <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2">
             <div className="font-semibold text-sm text-mono-800 tracking-tight">
-              &copy; {new Date().getFullYear()} &mdash; Fauzira Alpiandi
+              &copy; {new Date().getFullYear()} Meltronome &mdash; Fauzira Alpiandi
             </div>
           </div>
         </div>
