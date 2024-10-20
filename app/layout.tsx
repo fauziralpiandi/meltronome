@@ -2,8 +2,12 @@ import type { Metadata } from 'next'
 import { Alegreya } from 'next/font/google'
 
 import '~/globals.css'
-import { site } from '~/constant'
+import { site } from '~/head'
 import Disclaimer from '~/Disclaimer'
+
+const font = Alegreya({
+  subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.baseUrl),
@@ -45,7 +49,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-const font = Alegreya({
-  subsets: ['latin'],
-})

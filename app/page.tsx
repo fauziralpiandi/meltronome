@@ -26,6 +26,11 @@ export default function Home() {
 
       <div className="relative z-10 w-full mx-auto max-w-lg animate-in">
         <App onCoverChange={handleCoverChange} />
+        <footer className="fixed bottom-6 left-1/2 transform -translate-x-1/2">
+          <div className="block font-semibold text-center text-sm text-mono-800 tracking-tight">
+            Copyright &copy; {new Date().getFullYear()} Fauzira Alpiandi
+          </div>
+        </footer>
       </div>
     </div>
   )

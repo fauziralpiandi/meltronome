@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-import { site } from '~/constant'
+import { site } from '~/head'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {

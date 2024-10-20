@@ -25,7 +25,8 @@
     "paths": {
       "~/*": [
         "app/*",
-        "components/*",
+        "src/libs/*",
+        "src/components/*",
       ]
     },
     "target": "ES2017"
